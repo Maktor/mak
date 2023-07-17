@@ -1,19 +1,20 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import "./App.css";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-  const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("");
-  const [username, setUsername] = useState("");
-  const [age, setAge] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
+    const [isRegistering, setIsRegistering] = useState(true);
+    const [firstName, setFirstName] = useState("");
+    const [username, setUsername] = useState("");
+    const [age, setAge] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
   
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+    const handleRegister = async (event: React.FormEvent) => {
+      event.preventDefault();
       setErrorMessage("");
   
       if (!firstName || firstName.length <= 1) {
@@ -35,7 +36,7 @@ const Register = () => {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify({firstName, username, age, email, password})
+            body: JSON.stringify({ firstName, username, age, email, password })
           });
 
           if (response.ok) {
@@ -50,37 +51,83 @@ const Register = () => {
       }
     };
 
+    const handleLogin = async (event: React.FormEvent) => {
+      event.preventDefault();
+      setErrorMessage("");
+    
+      try {
+        const response = await fetch("http://localhost:3000/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ username, password })
+        });
+    
+        if (response.ok) {
+          console.log("User logged in successfully");
+          navigate("/dashboard");
+        } else {
+          const data = await response.json();
+          setErrorMessage(data.message || "Failed to log in");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+
+    const handleSwitch = () => {
+      setIsRegistering(!isRegistering);
+    };
+
   return (
     <div className="form-container">
-    <form onSubmit={handleSubmit} className="register-form">
-      <label>
-        First Name:
-        <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} />
-      </label>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Age:
-        <input type="number" value={age} onChange={e => setAge(e.target.value)} />
-      </label>
-      <label>
-        Email:
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-      </label>
-      <label>
-        Confirm Password:
-        <input type="password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} />
-      </label>
-      <button type="submit">Register</button>
-    </form>
-    {errorMessage && <p>{errorMessage}</p>}
-  </div>
+      {isRegistering ? (
+        <form onSubmit={handleRegister} className="register-form">
+          <label>
+            First Name:
+            <input type="text" value={firstName} onChange={e => setFirstName(e.target.value)} />
+          </label>
+          <label>
+            Username:
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+          </label>
+          <label>
+            Age:
+            <input type="number" value={age} onChange={e => setAge(e.target.value)} />
+          </label>
+          <label>
+            Email:
+            <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
+          </label>
+          <label>
+            Password:
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+          </label>
+          <label>
+            Confirm Password:
+            <input type="password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} />
+          </label>
+          <button type="submit">Register</button>
+        </form>
+      ) : (
+        <form onSubmit={handleLogin} className="login-form">
+          <label>
+            Username:
+            <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
+          </label>
+          <label>
+            Password:
+            <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+          </label>
+          <button type="submit">Login</button>
+        </form>
+      )}
+      {errorMessage && <p>{errorMessage}</p>}
+      <p onClick={handleSwitch}>
+        {isRegistering ? "Have an account?" : "Need an account?"}
+      </p>
+    </div>
   );
 };
 

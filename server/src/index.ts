@@ -25,6 +25,7 @@ const UserSchema = new mongoose.Schema({
   age: Number,
   email: String,
   password: String,
+  intro: { type: Boolean, default: false },
 });
 
 const User = mongoose.model("User", UserSchema);
@@ -58,6 +59,29 @@ app.post("/register", async (req, res) => {
   }
 });
 
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user || !user.password) {
+      return res.status(400).json({ message: "Invalid username or password" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: "Invalid username or password" });
+    }
+
+    res.status(200).json({ message: "Logged in successfully", intro: user.intro });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 app.listen(port, () => {
-    console.log(`Server running at http://localhost:${port}`);
+    console.log(`Port: ${port}`);
 });
