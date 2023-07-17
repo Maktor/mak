@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./App.css";
 
 const Register = () => {
-    const [firstName, setFirstName] = useState("");
-    const [username, setUsername] = useState("");
-    const [age, setAge] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [username, setUsername] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   
-    const handleSubmit = (event: React.FormEvent) => {
-      event.preventDefault();
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
       setErrorMessage("");
   
       if (!firstName || firstName.length <= 1) {
@@ -27,7 +29,24 @@ const Register = () => {
       } else if (password !== passwordConfirmation) {
         setErrorMessage("Password confirmation does not match the password.");
       } else {
-        console.log({ firstName, username, age, email, password, passwordConfirmation });
+        try {
+          const response = await fetch("http://localhost:3000/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({firstName, username, age, email, password})
+          });
+
+          if (response.ok) {
+            console.log("User registered successfully");
+            navigate("/dashboard");
+          } else {
+            console.error("Failed to register user");
+          }
+        } catch (error) {
+          console.error("An error occurred:", error);
+        }
       }
     };
 

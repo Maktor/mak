@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
 import './App.css';
 import Register from './Register';
+import Dashboard from './Dashboard';
 
 const Home = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
       </Routes>
     </Router>
