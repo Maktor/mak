@@ -43,6 +43,12 @@ app.post("/register", async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: "Username already taken. Please try a different one." });
     }
+    
+    const existingEmail = await User.findOne({ email })
+
+    if (existingEmail) {
+      return res.status(400).json({ message: "Email already taken. Please try a different one." });
+    }
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
