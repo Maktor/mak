@@ -16,7 +16,7 @@ const Register = () => {
   const handleRegister = async (event: React.FormEvent) => {
     event.preventDefault();
     setErrorMessage("");
-
+  
     if (!firstName || firstName.length <= 1) {
       setErrorMessage("First name is required and should be longer than 1 character.");
     } else if (!username || username.length <= 4) {
@@ -38,18 +38,20 @@ const Register = () => {
           },
           body: JSON.stringify({ firstName, username, age, email, password })
         });
-
+  
         if (response.ok) {
           console.log("User registered successfully");
-          navigate("/intro"); // Updated: after successful registration, user is redirected to intro page
+          navigate("/intro");
         } else {
-          console.error("Failed to register user");
+          const data = await response.json();
+          setErrorMessage(data.message || "Failed to register user"); 
         }
       } catch (error) {
         console.error("An error occurred:", error);
       }
     }
   };
+  
 
   const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();

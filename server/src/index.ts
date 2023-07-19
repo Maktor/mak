@@ -41,7 +41,7 @@ app.post("/register", async (req, res) => {
     const existingUser = await User.findOne({ username });
 
     if (existingUser) {
-      return res.status(400).json({ message: "Username is already taken. Please try a different username." });
+      return res.status(400).json({ message: "Username already taken. Please try a different one." });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -63,6 +63,7 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 
 app.post("/login", async (req, res) => {
