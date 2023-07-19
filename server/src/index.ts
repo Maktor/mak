@@ -38,10 +38,15 @@ app.post("/register", async (req, res) => {
   const { firstName, username, age, email, password } = req.body;
 
   try {
+    const existingUser = await User.findOne({ username });
+
+    if (existingUser) {
+      return res.status(400).json({ message: "Username is already taken. Please try a different username." });
+    }
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create a new user
     const newUser = new User({
       firstName,
       username,
@@ -58,6 +63,7 @@ app.post("/register", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -76,6 +82,31 @@ app.post("/login", async (req, res) => {
     }
 
     res.status(200).json({ message: "Logged in successfully", intro: user.intro });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+app.post("/introDone", async (req, res) => {
+  const { username } = req.body;
+
+  console.log(req.body);
+
+  try {
+    const user = await User.findOne({ username });
+
+    console.log(user);
+
+    if (!user) {
+      
+      return res.status(400).json({ message: "Invalid username" });
+    }
+
+    user.intro = true;
+    await user.save();
+
+    res.status(200).json({ message: "Intro viewed" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

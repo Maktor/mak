@@ -3,82 +3,87 @@ import "./App.css";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
-    const navigate = useNavigate();
-    const [isRegistering, setIsRegistering] = useState(true);
-    const [firstName, setFirstName] = useState("");
-    const [username, setUsername] = useState("");
-    const [age, setAge] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [errorMessage, setErrorMessage] = useState("");
-  
-    const handleRegister = async (event: React.FormEvent) => {
-      event.preventDefault();
-      setErrorMessage("");
-  
-      if (!firstName || firstName.length <= 1) {
-        setErrorMessage("First name is required and should be longer than 1 character.");
-      } else if (!username || username.length <= 4) {
-        setErrorMessage("Username is required and should be longer than 4 characters.");
-      } else if (!age || Number(age) <= 12) {
-        setErrorMessage("Age is required and should be more than 12.");
-      } else if (!email || !email.includes("@")) {
-        setErrorMessage("A valid email is required.");
-      } else if (!password || !/[!@#$%^&*]/.test(password) || password.length <= 8) {
-        setErrorMessage("Password is required, should be longer than 8 characters, and contain at least one special character.");
-      } else if (password !== passwordConfirmation) {
-        setErrorMessage("Password confirmation does not match the password.");
-      } else {
-        try {
-          const response = await fetch("http://localhost:3000/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ firstName, username, age, email, password })
-          });
+  const navigate = useNavigate();
+  const [isRegistering, setIsRegistering] = useState(true);
+  const [firstName, setFirstName] = useState("");
+  const [username, setUsername] = useState("");
+  const [age, setAge] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-          if (response.ok) {
-            console.log("User registered successfully");
-            navigate("/dashboard");
-          } else {
-            console.error("Failed to register user");
-          }
-        } catch (error) {
-          console.error("An error occurred:", error);
-        }
-      }
-    };
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage("");
 
-    const handleLogin = async (event: React.FormEvent) => {
-      event.preventDefault();
-      setErrorMessage("");
-    
+    if (!firstName || firstName.length <= 1) {
+      setErrorMessage("First name is required and should be longer than 1 character.");
+    } else if (!username || username.length <= 4) {
+      setErrorMessage("Username is required and should be longer than 4 characters.");
+    } else if (!age || Number(age) <= 12) {
+      setErrorMessage("Age is required and should be more than 12.");
+    } else if (!email || !email.includes("@")) {
+      setErrorMessage("A valid email is required.");
+    } else if (!password || !/[!@#$%^&*]/.test(password) || password.length <= 8) {
+      setErrorMessage("Password is required, should be longer than 8 characters, and contain at least one special character.");
+    } else if (password !== passwordConfirmation) {
+      setErrorMessage("Password confirmation does not match the password.");
+    } else {
       try {
-        const response = await fetch("http://localhost:3000/login", {
+        const response = await fetch("http://localhost:3000/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
           },
-          body: JSON.stringify({ username, password })
+          body: JSON.stringify({ firstName, username, age, email, password })
         });
-    
+
         if (response.ok) {
-          console.log("User logged in successfully");
-          navigate("/dashboard");
+          console.log("User registered successfully");
+          navigate("/intro"); // Updated: after successful registration, user is redirected to intro page
         } else {
-          const data = await response.json();
-          setErrorMessage(data.message || "Failed to log in");
+          console.error("Failed to register user");
         }
       } catch (error) {
-        console.error("Error:", error);
+        console.error("An error occurred:", error);
       }
-    };
+    }
+  };
 
-    const handleSwitch = () => {
-      setIsRegistering(!isRegistering);
-    };
+  const handleLogin = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("http://localhost:3000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ username, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("User logged in successfully");
+        if (data.intro) {
+          navigate("/dashboard"); // If intro flag is true, user is redirected to dashboard
+        } else {
+          navigate("/intro"); // If intro flag is false, user is redirected to intro page
+        }
+      } else {
+        const data = await response.json();
+        setErrorMessage(data.message || "Failed to log in");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const handleSwitch = () => {
+    setIsRegistering(!isRegistering);
+  };
 
   return (
     <div className="form-container">
@@ -123,10 +128,10 @@ const Register = () => {
           <button type="submit">Login</button>
         </form>
       )}
+      <button onClick={handleSwitch}>
+        {isRegistering ? "Have an account? Login" : "Don't have an account? Register"}
+      </button>
       {errorMessage && <p>{errorMessage}</p>}
-      <p onClick={handleSwitch}>
-        {isRegistering ? "Have an account?" : "Need an account?"}
-      </p>
     </div>
   );
 };
