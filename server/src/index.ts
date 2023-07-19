@@ -71,55 +71,10 @@ app.post("/register", async (req, res) => {
 });
 
 
-
-app.post("/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await User.findOne({ username });
-
-    if (!user || !user.password) {
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordValid) {
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
-
-    res.status(200).json({ message: "Logged in successfully", intro: user.intro });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-app.post("/introDone", async (req, res) => {
-  const { username } = req.body;
-
-  console.log(req.body);
-
-  try {
-    const user = await User.findOne({ username });
-
-    console.log(user);
-
-    if (!user) {
-      
-      return res.status(400).json({ message: "Invalid username" });
-    }
-
-    user.intro = true;
-    await user.save();
-
-    res.status(200).json({ message: "Intro viewed" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
 app.listen(port, () => {
     console.log(`Port: ${port}`);
+});
+
+app.use((req, res, next) => {
+  res.status(404).send("Sorry, we could not find what you were looking for.");
 });

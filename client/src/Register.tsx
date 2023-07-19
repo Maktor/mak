@@ -41,10 +41,9 @@ const Register = () => {
   
         if (response.ok) {
           console.log("User registered successfully");
-          navigate("/intro");
+          navigate("/dashboard");
         } else {
-          const data = await response.json();
-          setErrorMessage(data.message || "Failed to register user"); 
+          console.error("Failed to register user");
         }
       } catch (error) {
         console.error("An error occurred:", error);
@@ -67,13 +66,8 @@ const Register = () => {
       });
 
       if (response.ok) {
-        const data = await response.json();
         console.log("User logged in successfully");
-        if (data.intro) {
-          navigate("/dashboard"); // If intro flag is true, user is redirected to dashboard
-        } else {
-          navigate("/intro"); // If intro flag is false, user is redirected to intro page
-        }
+        navigate("/dashboard");
       } else {
         const data = await response.json();
         setErrorMessage(data.message || "Failed to log in");
