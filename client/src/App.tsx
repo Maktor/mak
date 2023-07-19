@@ -1,15 +1,16 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
-import './App.css';
-import Register from './Register';
-import Dashboard from './Dashboard';
-import NotFound from './NotFound';
+import React from "react";
+import { BrowserRouter as Router, Route, Routes, useNavigate } from "react-router-dom";
+import "./App.css";
+import Register from "./Register";
+import Dashboard from "./Dashboard";
+import NotFound from "./NotFound";
+import Intro from "./Intro";
 
 const Home = () => {
   const navigate = useNavigate();
 
   const handleStartClick = () => {
-    navigate('/register');
+    navigate("/register");
   };
 
   return (
@@ -27,6 +28,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/register" element={<Register />} />
+        <Route path="/intro" element={<Intro />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />

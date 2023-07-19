@@ -41,7 +41,7 @@ const Register = () => {
   
         if (response.ok) {
           console.log("User registered successfully");
-          navigate("/dashboard");
+          navigate("/intro");
         } else {
           const data = await response.json();
           setErrorMessage(data.message || "Failed to register user"); 
@@ -68,8 +68,13 @@ const Register = () => {
       });
 
       if (response.ok) {
+        const data = await response.json();
         console.log("User logged in successfully");
-        navigate("/dashboard");
+        if (data.intro) {
+          navigate("/dash");
+        } else {
+          navigate("/dashboard");
+        }
       } else {
         const data = await response.json();
         setErrorMessage(data.message || "Failed to log in");

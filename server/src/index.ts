@@ -15,10 +15,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 
+// Connecting to MongoDB
 mongoose.connect(process.env.MONGODB_URI!, {})
     .then(() => console.log("Successfully connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB", error));
 
+// Creating a Mongoose schema
 const UserSchema = new mongoose.Schema({
   firstName: String,
   username: String,
@@ -34,6 +36,7 @@ app.get("/", (req, res) => {
     res.send("Server running");
 });
 
+// Route for user registration
 app.post("/register", async (req, res) => {
   const { firstName, username, age, email, password } = req.body;
 
@@ -70,7 +73,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
-
+// Route for user login
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
@@ -94,6 +97,28 @@ app.post("/login", async (req, res) => {
   }
 });
 
+// Route for marking the intro page as seen
+app.post("/intro", async (req, res) => {
+  const { username } = req.body;
+
+  try {
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(400).json({ message: "User not found" });
+    }
+
+    user.intro = true;
+    await user.save();
+
+    res.status(200).json({ message: "Intro page has been marked as seen" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+// A default route to handle 404 errors
 app.use((req, res, next) => {
   res.status(404).send("Sorry, page not found.");
 });
