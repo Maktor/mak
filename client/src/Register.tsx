@@ -70,9 +70,7 @@ const Register = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("User logged in successfully");
-        if (data.intro) {
-          navigate("/dash");
-        } else {
+        if (!data.intro) {
           navigate("/dashboard");
         }
       } else {
