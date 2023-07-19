@@ -43,6 +43,8 @@ const Register = () => {
           console.log("User registered successfully");
           navigate("/dashboard");
         } else {
+          const data = await response.json();
+          setErrorMessage(data.message || "Failed to register user"); 
           console.error("Failed to register user");
         }
       } catch (error) {
