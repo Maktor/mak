@@ -68,11 +68,10 @@ app.post("/register", async (req, res) => {
   
     await newUser.save();
   
-    // After saving user, create a JWT and send it in the response
     const token = jwt.sign(
       { id: newUser._id, username: newUser.username },
       process.env.JWT_SECRET!,
-      { expiresIn: '1h' } // Token expires in 1 hour
+      { expiresIn: "1h" }
     );
   
     res.status(201).json({ message: "User created successfully", token });
@@ -100,10 +99,16 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    res.status(200).json({ message: "Logged in successfully", intro: user.intro });
+    const token = jwt.sign(
+      { id: user._id, username: user.username },
+      process.env.JWT_SECRET!,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({ message: "Logged in successfully", intro: user.intro, token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 });
 

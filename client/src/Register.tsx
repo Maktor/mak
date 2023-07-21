@@ -41,6 +41,7 @@ const Register = () => {
   
         if (response.ok) {
           console.log("User registered successfully");
+          localStorage.setItem("isLoggedIn", "true");
           navigate("/intro");
         } else {
           const data = await response.json();
@@ -70,6 +71,7 @@ const Register = () => {
       if (response.ok) {
         const data = await response.json();
         console.log("User logged in successfully");
+        localStorage.setItem("isLoggedIn", "true");
         if (!data.intro) {
           navigate("/dashboard");
         }
