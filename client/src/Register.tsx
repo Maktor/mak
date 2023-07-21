@@ -38,14 +38,7 @@ const Register = () => {
       setErrorMessage("Password confirmation does not match the password.");
     } else {
       try {
-        const response = await fetch("http://localhost:3000/register", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ firstName, username, age, email, password })
-        });
-  
+        const response = await fetch("http://localhost:3000/register", {method: "POST",headers: {"Content-Type": "application/json"},body: JSON.stringify({ firstName, username, age, email, password })});
         if (response.ok) {
           console.log("User registered successfully");
           localStorage.setItem("isLoggedIn", "true");
@@ -67,13 +60,7 @@ const Register = () => {
     setErrorMessage("");
 
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ username, password })
-      });
+      const response = await fetch("http://localhost:3000/login", {method: "POST",headers: {"Content-Type": "application/json"},body: JSON.stringify({ username, password })});
 
       if (response.ok) {
         const data = await response.json();
