@@ -38,7 +38,7 @@ const Register = () => {
       setErrorMessage("Password confirmation does not match the password.");
     } else {
       try {
-        //const response = await fetch("http://localhost:3000/register", {method: "POST",headers: {"Content-Type": "application/json"},body: JSON.stringify({ firstName, username, age, email, password })});
+        //const response = await fetch("http://localhost:3000/api/register", {method: "POST", mode: "cors", headers: { "Content-Type": "application/json" },body: JSON.stringify({ firstName, username, age, email, password })});
         const response = await fetch("https://mak-self-development-4ifpjeej2-maktor.vercel.app/api/register", {method: "POST", mode: "cors", headers: { "Content-Type": "application/json" },body: JSON.stringify({ firstName, username, age, email, password })});
         if (response.ok) {
           console.log("User registered successfully");
@@ -61,7 +61,7 @@ const Register = () => {
     setErrorMessage("");
 
     try {
-      //const response = await fetch("http://localhost:3000/login", {method: "POST",headers: {"Content-Type": "application/json"},body: JSON.stringify({ username, password })});
+      //const response = await fetch("http://localhost:3000/api/login", {method: "POST", mode: "cors", headers: { "Content-Type": "application/json" },body: JSON.stringify({ username, password })});
       const response = await fetch("https://mak-self-development-4ifpjeej2-maktor.vercel.app/api/login", {method: "POST", mode: "cors", headers: { "Content-Type": "application/json" },body: JSON.stringify({ username, password })});
 
       if (response.ok) {

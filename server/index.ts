@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
 });
 
 // Route for user registration
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { firstName, username, age, email, password } = req.body;
 
   try {
@@ -84,7 +84,7 @@ app.post("/register", async (req, res) => {
 console.log("Environment JWT_SECRET:", process.env.JWT_SECRET);
 
 // Route for user login
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
