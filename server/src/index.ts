@@ -81,6 +81,7 @@ app.post("/register", async (req, res) => {
   }
 });
 
+console.log("Environment JWT_SECRET:", process.env.JWT_SECRET);
 
 // Route for user login
 app.post("/login", async (req, res) => {

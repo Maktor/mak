@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [todos, setTodos] = useState<string[]>([]);
   const [todoInput, setTodoInput] = useState("");
 
@@ -9,6 +11,11 @@ const Dashboard = () => {
       setTodos([...todos, todoInput]);
       setTodoInput("");
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); 
+    navigate("/");
   };
 
   const handleRemoveTodo = (index: number) => {
@@ -20,7 +27,7 @@ const Dashboard = () => {
     <div>
       <h1>Dashboard</h1>
       <div>
-        <h2>DOt</h2>
+        <h2>Todo List</h2>
         <input
           type="text"
           value={todoInput}
@@ -36,6 +43,7 @@ const Dashboard = () => {
           ))}
         </ul>
       </div>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
