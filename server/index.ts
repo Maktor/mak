@@ -4,17 +4,17 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
 
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const cors = require("cors");
-app.use(cors());
 
 // Connecting to MongoDB
 mongoose.connect(process.env.MONGODB_URI!, {})
