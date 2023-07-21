@@ -20,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI!, {})
     .then(() => console.log("Successfully connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB", error));
 
-// Creating a Mongoose schema
+// Creating a Mongoose schema for User and UserExtension
 const UserSchema = new mongoose.Schema({
   firstName: String,
   username: String,
@@ -31,6 +31,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model("User", UserSchema);
+
 
 app.get("/", (req, res) => {
     res.send("Server running");
@@ -117,6 +118,7 @@ app.post("/intro", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
 
 // A default route to handle 404 errors
 app.use((req, res, next) => {
