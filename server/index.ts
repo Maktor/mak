@@ -1,19 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cors from "cors";
+import path from "path";
 
 dotenv.config();
 
 const app = express();
 const port = 3000;
 
-app.use(cors());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "../client/build")));
 
 
 // Connecting to MongoDB
