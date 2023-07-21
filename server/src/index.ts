@@ -65,15 +65,23 @@ app.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
     });
-
+  
     await newUser.save();
-
-    res.status(201).json({ message: "User created successfully" });
+  
+    // After saving user, create a JWT and send it in the response
+    const token = jwt.sign(
+      { id: newUser._id, username: newUser.username },
+      process.env.JWT_SECRET!,
+      { expiresIn: '1h' } // Token expires in 1 hour
+    );
+  
+    res.status(201).json({ message: "User created successfully", token });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: "Something went wrong" });
   }
 });
+
 
 // Route for user login
 app.post("/login", async (req, res) => {
