@@ -10,8 +10,21 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
+const allowedOrigins: string[] = [
+  "https://mak-self-development.vercel.app",
+];
+
 //Connect the client side
-app.use(cors())
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin!) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Origin not allowed by CORS"));
+    }
+  },
+}));
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
 
@@ -39,8 +52,8 @@ app.get("/", (req, res) => {
 
 // Route for user registration
 app.post("/api/register", async (req, res) => {
-  const { firstName, username, age, email, password, intro} = req.body;
-  console.log("Registration user input:", firstName, username, age, email, password, intro);
+  const { firstName, username, age, email, password} = req.body;
+  console.log("Registration user input:", firstName, username, age, email, password);
 
   try {
     const existingUser = await User.findOne({ username });
@@ -79,8 +92,8 @@ console.log("Environment JWT_SECRET:", process.env.JWT_SECRET);
 
 // Route for user login
 app.post("/api/login", async (req, res) => {
-  const { username, password, intro } = req.body;
-  console.log("Registration user input:", username, password, intro);
+  const { username, password } = req.body;
+  console.log("Registration user input:", username, password);
 
   try {
     const user = await User.findOne({ username });
