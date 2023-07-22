@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import cors from "cors";
+//import cors from "cors";
 
 require("dotenv").config();
 const path = require("path");
@@ -11,7 +11,14 @@ const app = express();
 const port = 3000;
 
 //Connect the client side
-app.use(cors())
+const cors=require("cors");
+const corsOptions ={
+   origin:"*", 
+   credentials:true,        
+   optionSuccessStatus:200,
+}
+
+app.use(cors(corsOptions))
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
 
