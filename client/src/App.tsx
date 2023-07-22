@@ -5,6 +5,7 @@ import Register from "./Register";
 import Dashboard from "./Dashboard";
 import NotFound from "./NotFound";
 import Intro from "./Intro";
+//import Cube from "./Cube";
 
 const Home = () => {
   const navigate = useNavigate();
