@@ -1,3 +1,5 @@
+//hashing and salt was inspired from https://docs.nestjs.com/security/encryption-and-hashing
+
 import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
