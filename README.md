@@ -7,7 +7,7 @@ This application is designed to assist you in taking over your objectives, wheth
 You have the flexibility to choose the duration during which you wish to disconnect from distractions and concentrate solely on your personal development.
 
 # DEMO
-(in progress)
+mak-self-development.vercel.app
 
 # Technologies
 ✅ TypeScript
