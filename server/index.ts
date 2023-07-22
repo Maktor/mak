@@ -11,7 +11,12 @@ dotenv.config();
 const app = express();
 const port = 3000;
 
-app.use(cors())
+app.use(cors({
+  origin: "https://mak-self-development.vercel.app",
+  optionsSuccessStatus: 200,
+  credentials: true
+}))
+
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
 
