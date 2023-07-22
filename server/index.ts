@@ -32,7 +32,6 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model("User", UserSchema);
 
-
 app.get("/", (req, res) => {
     res.send("Server running");
 });
@@ -130,7 +129,7 @@ app.post("/intro", async (req, res) => {
 });
 
 
-// A default route to handle 404 errors
+// 404 errors
 app.use((req, res, next) => {
   res.status(404).send("Sorry, page not found.");
 });

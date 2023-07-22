@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ const Dashboard = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
+    localStorage.removeItem("token"); 
     navigate("/");
   };
 
@@ -28,11 +28,7 @@ const Dashboard = () => {
       <h1>Dashboard</h1>
       <div>
         <h2>Todo List</h2>
-        <input
-          type="text"
-          value={todoInput}
-          onChange={(e) => setTodoInput(e.target.value)}
-        />
+        <input type="text" value={todoInput} onChange={(e) => setTodoInput(e.target.value)}/>
         <button onClick={handleAddTodo}>Add</button>
         <ul>
           {todos.map((todo, index) => (
