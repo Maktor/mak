@@ -36,5 +36,7 @@ The mentioned issues are being worked on and should be fixed in the near future.
 2. https://docs.nestjs.com/security/encryption-and-hashing
 3. https://plainenglish.io/blog/a-simple-encryption-library-in-node-js-with-typescript-d72c294998bf
 4. https://github.com/Maktor/Milestone-2-NCSTATE-Bootcamp
+5. https://stackoverflow.com/questions/56318415/jsonwebtoken-expiresin-does-not-expires
+6. https://www.npmjs.com/package/jsonwebtoken
 
 Thank you
