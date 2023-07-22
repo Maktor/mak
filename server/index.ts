@@ -10,21 +10,8 @@ const path = require("path");
 const app = express();
 const port = 3000;
 
-const allowedOrigins: string[] = [
-  "https://mak-self-development.vercel.app",
-];
-
 //Connect the client side
-app.use(cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin!) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Origin not allowed by CORS"));
-    }
-  },
-}));
-
+app.use(cors())
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
 
@@ -33,7 +20,7 @@ mongoose.connect(process.env.MONGODB_URI!, {})
     .then(() => console.log("Successfully connected to MongoDB"))
     .catch((error) => console.error("Error connecting to MongoDB", error));
 
-// Creating a Mongoose schema for User and UserExtension
+// Creating a Mongoose schema for User
 const UserSchema = new mongoose.Schema({
   firstName: String,
   username: String,
@@ -52,7 +39,7 @@ app.get("/", (req, res) => {
 
 // Route for user registration
 app.post("/api/register", async (req, res) => {
-  const { firstName, username, age, email, password} = req.body;
+  const { firstName, username, age, email, password, intro} = req.body;
   console.log("Registration user input:", firstName, username, age, email, password);
 
   try {

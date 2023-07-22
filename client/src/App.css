@@ -25,6 +25,15 @@
   animation: fadeInAnimation 1s ease-in-out; 
 }
 
+.cube-container {
+  width: 200px;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
 @keyframes fadeInAnimation {
   from {
     opacity: 0;
