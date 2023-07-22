@@ -1,25 +1,19 @@
 import express from "express";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cors from "cors";
-import path from "path";
 
-dotenv.config();
+require("dotenv").config();
+const path = require("path");
 
 const app = express();
 const port = 3000;
 
-app.use(cors({
-  origin: "https://mak-self-development.vercel.app",
-  optionsSuccessStatus: 200,
-  credentials: true
-}))
-
+//Connect the client side
+app.use(cors())
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
-
 
 // Connecting to MongoDB
 mongoose.connect(process.env.MONGODB_URI!, {})
