@@ -1,9 +1,6 @@
 .App {
   text-align: center;
-<<<<<<< HEAD
   background-color: #121212; 
-=======
->>>>>>> origin/main
 }
 
 .App-logo {
@@ -18,17 +15,12 @@
 }
 
 .App-header {
-<<<<<<< HEAD
-=======
-  background-color: #282c34;
->>>>>>> origin/main
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-<<<<<<< HEAD
   color: #D3D3D3;
   animation: fadeInAnimation 1s ease-in-out; 
 }
@@ -40,16 +32,12 @@
   to {
     opacity: 1;
   }
-=======
-  color: white;
->>>>>>> origin/main
 }
 
 .App-link {
   color: #61dafb;
 }
 
-<<<<<<< HEAD
 .App-header h1 {
   color: #D3D3D3;
   animation: fadeInAnimation 2s ease-in-out;
@@ -67,22 +55,6 @@
 
 .App-header button:hover {
   border-color: rgb(92, 92, 255);
-=======
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.App-header button {
-  padding: 10px 20px;
-  font-size: 20px;
-  margin-top: 20px;
-  cursor: pointer;
->>>>>>> origin/main
 }
 
 .form-container {
@@ -98,7 +70,6 @@
   align-items: center;
   gap: 20px;
 }
-<<<<<<< HEAD
 
 /* responsiveness */
 @media (max-width: 768px) {
@@ -115,5 +86,3 @@
     gap: 15px;
   }
 }
-=======
->>>>>>> origin/main
