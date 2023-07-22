@@ -1,4 +1,5 @@
-//hashing and salt was inspired from https://docs.nestjs.com/security/encryption-and-hashing
+//hashing and salt, I need help so I used this to learn https://docs.nestjs.com/security/encryption-and-hashing
+//MongoDB set up help - https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514
 
 import express from "express";
 import mongoose from "mongoose";
