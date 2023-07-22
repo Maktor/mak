@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-//import cors from "cors";
+import cors from "cors";
 
 require("dotenv").config();
 const path = require("path");
@@ -11,14 +11,7 @@ const app = express();
 const port = 3000;
 
 //Connect the client side
-const cors=require("cors");
-const corsOptions ={
-   origin:"*", 
-   credentials:true,        
-   optionSuccessStatus:200,
-}
-
-app.use(cors(corsOptions))
+app.use(cors())
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../client/build")));
 
@@ -46,7 +39,8 @@ app.get("/", (req, res) => {
 
 // Route for user registration
 app.post("/api/register", async (req, res) => {
-  const { firstName, username, age, email, password } = req.body;
+  const { firstName, username, age, email, password, intro} = req.body;
+  console.log("Registration user input:", firstName, username, age, email, password, intro);
 
   try {
     const existingUser = await User.findOne({ username });
@@ -64,13 +58,7 @@ app.post("/api/register", async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    const newUser = new User({
-      firstName,
-      username,
-      age,
-      email,
-      password: hashedPassword,
-    });
+    const newUser = new User({firstName,username,age,email,password: hashedPassword,});
   
     await newUser.save();
   
@@ -91,7 +79,8 @@ console.log("Environment JWT_SECRET:", process.env.JWT_SECRET);
 
 // Route for user login
 app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, intro } = req.body;
+  console.log("Registration user input:", username, password, intro);
 
   try {
     const user = await User.findOne({ username });
