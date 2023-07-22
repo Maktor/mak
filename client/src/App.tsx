@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>logo</h1>
+        <h1>Mak</h1>
         <button onClick={handleStartClick}>Start</button>
       </header>
     </div>
